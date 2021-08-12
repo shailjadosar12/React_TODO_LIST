@@ -1,0 +1,56 @@
+import axios from "axios";
+import React, { Component, Fragment } from "react";
+import DeleteTask from "./DeleteTask";
+import EditTask from "./EditTask";
+class TaskList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      tasks: [],
+      errormsg: "",
+    };
+  }
+  componentDidMount() {
+    axios
+      .get("https://jsonplaceholder.typicode.com/posts")
+      .then((response) => {
+        //   console.log(response.data)
+        this.setState({ tasks: response.data });
+      })
+      .catch((error) => {
+        this.setState({ errormsg: "Data not found" });
+      });
+  }
+temp = () =>{
+  console.log("sgdj")
+}
+  render() {
+    const { tasks, errormsg } = this.state;
+    return (
+      <Fragment>
+        
+          <ol>
+            {tasks.length
+              ? tasks.map((task) => (
+                  <div>
+                    <li type="text" key={task.id} onClick={this.temp}>
+                       {task.title} </li>
+                    
+                    <EditTask id = {task.id} title = {task.title} onEditTask={this.props.onEditHandler}/>
+                    <DeleteTask
+                      id={task.id}
+                      onDeleteTask={this.props.deleteTask}
+                    />
+                  </div>
+                ))
+              : null}
+            {errormsg ? <h1>{errormsg}</h1> : ""}
+          
+            </ol>
+      </Fragment>
+    );
+  }
+}
+
+export default TaskList;

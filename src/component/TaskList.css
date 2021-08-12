@@ -1,0 +1,9 @@
+p input{
+    background-color: transparent;
+    border: 0;
+    width: 100%;
+    /* color:#fff */
+}
+p input:focus{
+    outline:none
+}
